@@ -1,5 +1,24 @@
-## Contract Address: 
-- [0x0ce20158e2af7B630549C2EeD177A82a659BDE83](https://sepolia.etherscan.io/address/0x0ce20158e2af7B630549C2EeD177A82a659BDE83)
+# Rupay — Backend
+
+Contract address (Sepolia)
+### RupayIssuer
+- 0xF2357a861393f95DBAA9356adf9ec14241d015D1     
+ https://sepolia.etherscan.io/address/0xf2357a861393f95dbaa9356adf9ec14241d015d1
+
+ ### Rupay (RUP)
+ - 0x89D34DAC960300F710D19A23387E121633bc88c7    
+ https://sepolia.etherscan.io/address/0x89D34DAC960300F710D19A23387E121633bc88c7
+
+Overview
+--------
+Rupay is an over-collateralized USD-pegged stablecoin protocol. Users deposit supported collateral and mint RUP. This backend contains the core Solidity contracts, oracle integrations, tests and deployment scripts.
+
+Highlights
+- Chainlink oracle integration with freshness/sequencer checks.
+- Deposit/mint and burn/redeem flows with liquidation mechanics.
+- Extensive test coverage: unit tests, fuzzing and invariants using Foundry.
+- Deployment scripts and network helper config for local and Sepolia deployments.
+- Safety: Pausable and non-reentrant guards on critical flows.
 
 ## Getting Started
 
@@ -53,36 +72,34 @@ cp .env.example .env
 
 2. Deploy to network
 ```bash
-forge script script/DeployRup.s.sol --rpc-url <your_rpc_url> --broadcast
+forge script script/DeployRup.s.sol --rpc-url <RPC_URL> --broadcast --private-key <KEY>
 ```
 
 ## Project Structure
 
 ```
-rupay/
-├── src/                    # Source contracts
-│   ├── Rupay.sol          # Main stablecoin contract
-│   └── RupIssuer.sol      # Collateral management & minting
-├── test/                   # Tests
-│   ├── unit/              # Unit tests
-│   └── fuzz/              # Fuzz & invariant tests
-└── script/                 # Deployment scripts
+backend/
+├── src/
+│   ├── Rupay.sol               # ERC20 stablecoin
+│   ├── RupIssuer.sol           # Collateral management, mint/redeem, liquidation
+│   └── libraries/
+│       └── ChainlinkOracleLib.sol
+├── script/
+│   ├── DeployRup.s.sol
+│   └── HelperConfig.s.sol
+├── test/
+│   ├── unit/
+│   └── fuzz/
+├── foundry.toml
+└── Makefile               # Deployment scripts
 ```
 
 ## Core Mechanics
 
 - **Minting**: Users deposit collateral and mint RUP
 - **Burning**: Users burn RUP to redeem collateral
-- **Liquidation**: Positions below 150% collateral ratio can be liquidated
-- **Oracle**: Uses Chainlink price feeds for collateral valuation
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+- **Liquidation**: Positions below  (protocol-configured ratio) collateral ratio can be liquidated
+- **Oracle**: Chainlink price feeds for collateral valuation and sequencer checks.
 
 ## License
 

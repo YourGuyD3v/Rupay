@@ -14,7 +14,7 @@ export default function Header() {
                     <h1 className="font-bold text-2xl hidden md:block">Rupay</h1>
                 </Link>
                 <Link
-                    href="https://github.com/YourGuyD3v/Portfolio-onchain/tree/main/rupay"
+                    href="https://github.com/YourGuyD3v/Rupay/tree/d90fbb5eae242cbe8d2ae604895718217ed87483"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 transition-colors border-2 border-zinc-600 hover:border-zinc-500 cursor-alias hidden md:block"
@@ -23,7 +23,7 @@ export default function Header() {
                 </Link>
             </div>
             <h3 className="italic text-left hidden text-zinc-500 lg:block">
-                Welcome to Rupay.
+                Welcome to Rupay, stablecoin that flows flawlessly.
             </h3>
             <div className="flex items-center gap-4">
                 <ConnectButton />

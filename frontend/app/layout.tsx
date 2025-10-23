@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Rupay",
-  description: "Rupay is a stablecoin which flow flowless",
+  description: "Rupay is a stablecoin that flows flawlessly.",
 };
 
 export default function RootLayout(props: {children: ReactNode}) {

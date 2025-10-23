@@ -153,6 +153,27 @@ contract RupIssuer is ReentrancyGuard, Pausable, Ownable {
     }
 
     /**
+     * @notice deposit collateral
+     * @param token address of the colateral token to be deposited
+     * @param amountCollateral amount of the colateral token to be deposited
+     */
+    function deposit(address token, uint256 amountCollateral)
+        external
+        whenNotPaused
+        nonReentrant
+    {
+        _deposit(token, amountCollateral);
+    }
+
+    /**
+     * @notice mint RUP tokens
+     * @param amountToMint amount of RUP to be minted
+     */
+    function mint(uint256 amountToMint) external whenNotPaused nonReentrant {
+        _mintRup(amountToMint);
+    }
+
+    /**
      * @notice burn RUP and redeem collateral
      * @param token address of the colateral token to be redeemed
      * @param amountToBurn amount of RUP to be burned
@@ -164,6 +185,29 @@ contract RupIssuer is ReentrancyGuard, Pausable, Ownable {
         nonReentrant
     {
         _burnRup(amountToBurn, msg.sender, msg.sender);
+        _redeemCollateral(token, amountCollateral, msg.sender, msg.sender);
+        _healthFactorCheck(msg.sender);
+    }
+
+    /**
+     * @notice burn RUP tokens
+     * @param amountToBurn amount of RUP to be burned
+     */
+    function burn(uint256 amountToBurn) external whenNotPaused nonReentrant {
+        _burnRup(amountToBurn, msg.sender, msg.sender);
+        _healthFactorCheck(msg.sender);
+    }
+
+    /**
+     * @notice redeem collateral
+     * @param token address of the colateral token to be redeemed
+     * @param amountCollateral amount of the colateral token to be redeemed
+     */
+    function redeemCollateral(address token, uint256 amountCollateral)
+        external
+        whenNotPaused
+        nonReentrant
+    {
         _redeemCollateral(token, amountCollateral, msg.sender, msg.sender);
         _healthFactorCheck(msg.sender);
     }

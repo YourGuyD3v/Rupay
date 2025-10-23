@@ -15,12 +15,12 @@ interface FormProps {
   amount1Label: string
   amount2Label: string
   tokens: Token[]
-  onSubmit?: (data: { token: Token | null; amount1: string; amount2: string }) => void
+  onSubmit?: (data: { token: Token | null; amount1: number; amount2: number }) => void
 }
 
 interface FormMintProps {
   tokens: Token[]
-  onSubmit?: (data: { token: Token | null; amount: string }) => void
+  onSubmit?: (data: { token: Token | null; amount: number }) => void
 }
 
 function Form({ 
@@ -48,7 +48,11 @@ function Form({
 
   const handleSubmit = () => {
     if (onSubmit) {
-      onSubmit({ token: selectedToken, amount1, amount2 })
+      onSubmit({ 
+  token: selectedToken, 
+  amount1: parseFloat(amount1) || 0, 
+  amount2: parseFloat(amount2) || 0 
+})
     }
     setIsOpen(false)
   }
@@ -175,7 +179,7 @@ function MintForm({
 
   const handleSubmit = () => {
     if (onSubmit) {
-      onSubmit({ token: selectedToken, amount})
+      onSubmit({ token: selectedToken, amount: parseFloat(amount) || 0})
     }
     setIsOpen(false)
   }

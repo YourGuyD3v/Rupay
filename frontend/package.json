@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
+    "@wagmi/core": "^2.22.1",
+    "viem": "2.38.3",
     "clsx": "^2.1.1",
     "motion": "^12.23.24",
     "next": "15.5.4",
@@ -27,5 +29,11 @@
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4.1.14",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "viem": "2.38.3",
+      "@wagmi/core": "2.22.1"
+    }
   }
 }

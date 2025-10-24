@@ -1,5 +1,5 @@
 import {Form, MintForm, LiquidateForm} from "./utils/ui/Form";
-import { erc20Abi, rupayIssuerAbi, chainsTorupayIssuer, wrapTokens, rup, rupayERC20Abi } from "./utils/constant/constants";
+import { erc20Abi, rupayIssuerAbi, chainsTorupayIssuer, wrapTokens, rup } from "./utils/constant/constants";
 import { useState, useEffect } from "react";
 import { readContract, waitForTransactionReceipt  } from '@wagmi/core'
 import { useAccount, useConfig, useChainId, useWriteContract } from "wagmi";
@@ -273,7 +273,7 @@ export function RupayContent() {
       setTimeout(() => {
         setTransactionAlert({
           type: 'liquidate',
-          token: data.token,
+          token: data.token!,
           userAddress: data.userAddress,
           amountOut: data.amount.toString(),
           status: 'success'

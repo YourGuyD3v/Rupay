@@ -26,17 +26,9 @@ yarn
 cp .env.local.example .env.local  # if an example exists
 # or create .env.local with your values
 ```
-Set at minimum:
-- NEXT_PUBLIC_RPC_URL (RPC endpoint or local anvil)
-- NEXT_PUBLIC_RUP_ISSUER_ADDRESS (deployed RupayIssuer)
-- NEXT_PUBLIC_RUP_ADDRESS (RUP token)
-- any wallet or analytics keys
-
 Example .env.local
 ```env
-NEXT_PUBLIC_RPC_URL=https://rpc.sepolia.org/<KEY>
-NEXT_PUBLIC_RUP_ISSUER_ADDRESS=0xYourRupayIssuerAddress
-NEXT_PUBLIC_RUP_ADDRESS=0xYourRupAddress
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
 ```
 
 ## Local development

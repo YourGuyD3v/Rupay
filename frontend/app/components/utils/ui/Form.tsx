@@ -1,10 +1,11 @@
-import { Dialog, DialogPanel, DialogTitle, Description, Label, Combobox, ComboboxOption, Field, ComboboxInput, ComboboxOptions } from '@headlessui/react'
+import { Dialog, DialogPanel, DialogTitle, Description, Label, Combobox, ComboboxOption, Field, ComboboxInput, ComboboxOptions, ComboboxButton } from '@headlessui/react'
 import { useState } from 'react'
 
 interface Token {
   name: string
   symbol: string
   address: string
+  logo?: string
 }
 
 interface FormProps {
@@ -60,10 +61,10 @@ function Form({
   const handleSubmit = () => {
     if (onSubmit) {
       onSubmit({ 
-  token: selectedToken, 
-  amount1: parseFloat(amount1) || 0, 
-  amount2: parseFloat(amount2) || 0 
-})
+        token: selectedToken, 
+        amount1: parseFloat(amount1) || 0, 
+        amount2: parseFloat(amount2) || 0 
+      })
     }
     setIsOpen(false)
   }
@@ -94,12 +95,19 @@ function Form({
               <Label className="block text-sm font-medium text-gray-700 mb-1">Select Token</Label>
               <Combobox value={selectedToken} onChange={setSelectedToken}>
                 <div className="relative">
-                  <ComboboxInput
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    displayValue={(token: Token | null) => token?.name || ''}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Search tokens 0x..."
-                  />
+                  <div className="relative">
+                    <ComboboxInput
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      displayValue={(token: Token | null) => token?.name || ''}
+                      onChange={(event) => setQuery(event.target.value)}
+                      placeholder="Search tokens..."
+                    />
+                    <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-2">
+                      <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </ComboboxButton>
+                  </div>
                   <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {filteredTokens.length === 0 && query !== '' ? (
                       <div className="px-4 py-2 text-sm text-gray-700">No tokens found.</div>
@@ -108,17 +116,33 @@ function Form({
                         <ComboboxOption
                           key={token.symbol}
                           value={token}
-                          className="cursor-pointer select-none px-4 py-2 hover:bg-indigo-600 hover:text-white data-[focus]:bg-indigo-600 data-[focus]:text-white"
+                          className={({ active }) =>
+                            `cursor-pointer select-none px-4 py-2 ${
+                              active ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                            }`
+                          }
                         >
-                          <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
-                              {token.symbol.slice(0, 2)}
+                          {({ selected }) => (
+                            <div className="flex items-center gap-2">
+                              {token.logo ? (
+                                <img 
+                                  src={token.logo} 
+                                  alt={token.symbol}
+                                  className="h-8 w-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
+                                  {token.symbol.slice(0, 2)}
+                                </div>
+                              )}
+                              <div className="flex-1">
+                                <div className={`font-medium ${selected ? 'font-semibold' : ''}`}>
+                                  {token.name}
+                                </div>
+                                <div className="text-xs opacity-75">{token.symbol}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div className="font-medium">{token.name}</div>
-                              <div className="text-xs opacity-75">{token.symbol}</div>
-                            </div>
-                          </div>
+                          )}
                         </ComboboxOption>
                       ))
                     )}
@@ -221,12 +245,19 @@ function MintForm({
               <Label className="block text-sm font-medium text-gray-700 mb-1">Select Token</Label>
               <Combobox value={selectedToken} onChange={setSelectedToken}>
                 <div className="relative">
-                  <ComboboxInput
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    displayValue={(token: Token | null) => token?.name || ''}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Search tokens 0x..."
-                  />
+                  <div className="relative">
+                    <ComboboxInput
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      displayValue={(token: Token | null) => token?.name || ''}
+                      onChange={(event) => setQuery(event.target.value)}
+                      placeholder="Search tokens..."
+                    />
+                    <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-2">
+                      <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </ComboboxButton>
+                  </div>
                   <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {filteredTokens.length === 0 && query !== '' ? (
                       <div className="px-4 py-2 text-sm text-gray-700">No tokens found.</div>
@@ -235,17 +266,33 @@ function MintForm({
                         <ComboboxOption
                           key={token.symbol}
                           value={token}
-                          className="cursor-pointer select-none px-4 py-2 hover:bg-indigo-600 hover:text-white data-[focus]:bg-indigo-600 data-[focus]:text-white"
+                          className={({ active }) =>
+                            `cursor-pointer select-none px-4 py-2 ${
+                              active ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                            }`
+                          }
                         >
-                          <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
-                              {token.symbol.slice(0, 2)}
+                          {({ selected }) => (
+                            <div className="flex items-center gap-2">
+                              {token.logo ? (
+                                <img 
+                                  src={token.logo} 
+                                  alt={token.symbol}
+                                  className="h-8 w-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
+                                  {token.symbol.slice(0, 2)}
+                                </div>
+                              )}
+                              <div className="flex-1">
+                                <div className={`font-medium ${selected ? 'font-semibold' : ''}`}>
+                                  {token.name}
+                                </div>
+                                <div className="text-xs opacity-75">{token.symbol}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div className="font-medium">{token.name}</div>
-                              <div className="text-xs opacity-75">{token.symbol}</div>
-                            </div>
-                          </div>
+                          )}
                         </ComboboxOption>
                       ))
                     )}
@@ -344,12 +391,19 @@ function LiquidateForm({
               <Label className="block text-sm font-medium text-gray-700 mb-1">Select Token</Label>
               <Combobox value={selectedToken} onChange={setSelectedToken}>
                 <div className="relative">
-                  <ComboboxInput
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    displayValue={(token: Token | null) => token?.name || ''}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Search tokens 0x..."
-                  />
+                  <div className="relative">
+                    <ComboboxInput
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      displayValue={(token: Token | null) => token?.name || ''}
+                      onChange={(event) => setQuery(event.target.value)}
+                      placeholder="Search tokens..."
+                    />
+                    <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-2">
+                      <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </ComboboxButton>
+                  </div>
                   <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {filteredTokens.length === 0 && query !== '' ? (
                       <div className="px-4 py-2 text-sm text-gray-700">No tokens found.</div>
@@ -358,17 +412,33 @@ function LiquidateForm({
                         <ComboboxOption
                           key={token.symbol}
                           value={token}
-                          className="cursor-pointer select-none px-4 py-2 hover:bg-indigo-600 hover:text-white data-[focus]:bg-indigo-600 data-[focus]:text-white"
+                          className={({ active }) =>
+                            `cursor-pointer select-none px-4 py-2 ${
+                              active ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                            }`
+                          }
                         >
-                          <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
-                              {token.symbol.slice(0, 2)}
+                          {({ selected }) => (
+                            <div className="flex items-center gap-2">
+                              {token.logo ? (
+                                <img 
+                                  src={token.logo} 
+                                  alt={token.symbol}
+                                  className="h-8 w-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xs font-semibold">
+                                  {token.symbol.slice(0, 2)}
+                                </div>
+                              )}
+                              <div className="flex-1">
+                                <div className={`font-medium ${selected ? 'font-semibold' : ''}`}>
+                                  {token.name}
+                                </div>
+                                <div className="text-xs opacity-75">{token.symbol}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div className="font-medium">{token.name}</div>
-                              <div className="text-xs opacity-75">{token.symbol}</div>
-                            </div>
-                          </div>
+                          )}
                         </ComboboxOption>
                       ))
                     )}
@@ -385,7 +455,7 @@ function LiquidateForm({
                 type="text"
                 name="userAddress"
                 id="userAddress"
-                value={userAddress} // Fixed: was 'amount1'
+                value={userAddress}
                 onChange={(e) => setUserAddress(e.target.value)}
                 placeholder="0x1234..."
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"

@@ -5,8 +5,8 @@ interface ContractsConfig {
 }
 
 export const wrapTokens = [
-    { name: 'Wrap ETH', symbol: 'WETH', address: "0xEa2eA44ee93004D00e9c4cD871bc194Fd1991100" },
-    { name: 'Wrap BTC', symbol: 'WBTC', address: "0xf847B0fEdacEEab73608232E3A2DbD4e40F9797E" },
+    { name: 'Wrap ETH', symbol: 'WETH', address: "0xEa2eA44ee93004D00e9c4cD871bc194Fd1991100", logo: "/WETH.png" },
+    { name: 'Wrap BTC', symbol: 'WBTC', address: "0xf847B0fEdacEEab73608232E3A2DbD4e40F9797E", logo: "/wrapped-bitcoin-wbtc-logo.png" },
   ]
 
 export const rup = "0x89D34DAC960300F710D19A23387E121633bc88c7"

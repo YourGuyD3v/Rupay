@@ -8,8 +8,10 @@ export default function Home() {
         min-h-screen 
         bg-cover bg-center bg-no-repeat
         px-4 sm:px-6 lg:px-8
+
+        bg-[url('/homePageBG-mobile.svg')]     
+        lg:bg-[url('/homePageBG.svg')]       
       " 
-      style={{ backgroundImage: 'url(/homePageBG.svg)' }}
     >
       <div className="flex flex-col items-center justify-center w-full max-w-7xl mx-auto text-center space-y-6 sm:space-y-8">
         <Link 
